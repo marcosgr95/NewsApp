@@ -2,6 +2,7 @@ import SwiftUI
 
 struct NewsList: View {
     @ObservedObject var viewModel: NewsViewModel
+    @State private var searchText = ""
 
     var body: some View {
         if viewModel.isLoading, viewModel.news.isEmpty {
@@ -11,21 +12,44 @@ struct NewsList: View {
                     viewModel.requestNews()
                 }
         } else {
-            List {
-                ForEach(viewModel.news.enumerated().map { $0 }, id: \.element.id) { index, news in
-                    Text(news.title)
-                        .onNavigation {
-                            viewModel.navigateToNewsDetail(news: news)
-                        }
+            VStack(spacing: 0) {
 
-                    if !viewModel.isLastPage, viewModel.isLastIndex(index) {
-                        GettingMoreItemsView {
-                            viewModel.requestNews()
+                HStack {
+                    Image(.splash)
+                        .resizable()
+                        .scaledToFit()
+                        .clipShape(Circle())
+                        .frame(width: 60, height: 60, alignment: .leading)
+
+                    SearchField(searchText: $searchText)
+                }
+                .background(.mainCustom)
+
+                List {
+                    ForEach(viewModel.news.enumerated().map { $0 }, id: \.element.id) { index, news in
+                        VStack {
+                            NewsCell(
+                                onNavigation: { viewModel.navigateToNewsDetail(news: news)
+                                },
+                                news: news
+                            )
+
+                            if !viewModel.isLastPage, viewModel.isLastIndex(index) {
+                                GettingMoreItemsView {
+                                    viewModel.requestNews()
+                                }
+                                .padding([.top], 20)
+                            }
                         }
                     }
+                    .clearContentBackground()
+                    .listRowInsets(EdgeInsets(top: 8.0, leading: 8.0, bottom: 8.0, trailing: 8.0))
+                    .listRowBackground(Color.clear)
+                    .listRowSeparator(.hidden)
                 }
-                .padding()
+                .hideScrollIndicator()
             }
+            .clearContentBackground()
         }
     }
 }
@@ -33,11 +57,4 @@ struct NewsList: View {
 #Preview {
     let netClient = NewsAppClient()
     return NewsList(viewModel: NewsViewModel(netClient: netClient, coordinator: AppCoordinator(netClient: netClient)))
-        .previewDevice(PreviewDevice(rawValue: "iPhone 15 Pro"))
-}
-
-#Preview {
-    let netClient = NewsAppClient()
-    return NewsList(viewModel: NewsViewModel(netClient: netClient, coordinator: AppCoordinator(netClient: netClient)))
-        .previewDevice(PreviewDevice(rawValue: "iPad Pro (11-inch)"))
 }

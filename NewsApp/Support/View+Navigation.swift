@@ -8,7 +8,12 @@ extension View {
             if $0 { action() }
         }
 
-        return NavigationLink(destination: EmptyView(), isActive: isNavigationActive) {
+        return ZStack {
+            NavigationLink(destination: EmptyView(), isActive: isNavigationActive) {
+                EmptyView()
+            }
+            .frame(width: 0)
+            .opacity(0)
             self
         }
     }
