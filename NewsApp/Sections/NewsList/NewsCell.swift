@@ -4,24 +4,10 @@ struct NewsCell: View {
     let onNavigation: () -> Void
     let news: NewsModel
 
-    @State private var imageLoaded = false
-
     var body: some View {
         VStack {
             if let url = URL(string: news.imageUrl ?? "") {
-                AsyncImage(
-                    url: url
-                ) { image in
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                } placeholder: {
-                    ProgressView()
-                        .padding()
-                }
-                .onAppear { imageLoaded = true }
-                .frame(maxWidth: .infinity)
-                .animation(.easeInOut(duration: 0.75), value: imageLoaded)
+                CustomAsyncImageView(url: url)
             }
 
             Text(news.title)
@@ -32,7 +18,7 @@ struct NewsCell: View {
 
             if let source = news.source?.name {
                 Text(source)
-                    .latoFont(textStyle: .footnote)
+                    .latoFont(textStyle: .footnote, italics: true)
                     .foregroundStyle(.secondaryCustom)
                     .frame(maxWidth: .infinity, alignment: .trailing)
                     .padding()
@@ -48,13 +34,5 @@ struct NewsCell: View {
 }
 
 #Preview {
-    let fakeNews = NewsModel(
-        author: "Jason Schreier",
-        title: "Video-Game Companies Make Workers Relocate, Then Fire Them",
-        source: NewsModel.Source(name: "Bloomberg"),
-        description: "Return-to-office policies are mixing with the inherent volatility of the gaming industry with painful results",
-        url: "https://www.bloomberg.com/news/newsletters/2024-01-26/video-game-companies-make-workers-relocate-then-fire-them?embedded-checkout=true",
-        imageUrl: "https://assets.bwbx.io/images/users/iqjWHBFdfxIU/iORuKt6DWr5Q/v0/-1x-1.jpg"
-    )
-    return NewsCell(onNavigation: { print("Navigated!") }, news: fakeNews)
+    NewsCell(onNavigation: { print("Navigated!") }, news: fakeNews)
 }

@@ -4,19 +4,56 @@ struct NewsDetail: View {
     @ObservedObject var viewModel: NewsDetailViewModel
 
     var body: some View {
-        Text(viewModel.news.title)
+        ScrollView {
+            VStack(spacing: 0) {
+                if let url = URL(string: viewModel.news.imageUrl ?? "") {
+                    CustomAsyncImageView(url: url)
+                } else {
+                    Spacer()
+                        .frame(height: 80)
+                }
+
+                VStack(spacing: 15) {
+                    Text(viewModel.news.title)
+                        .latoFont(textStyle: .title, weight: .bold)
+                        .frame(maxWidth: .infinity, alignment: .center)
+
+                    if let source = viewModel.news.source?.name {
+                        Text(source)
+                            .latoFont(textStyle: .caption2, italics: true)
+                            .frame(maxWidth: .infinity, alignment: .trailing)
+                    }
+
+                    if let description = viewModel.news.description {
+                        Text(description)
+                            .latoFont()
+                            .frame(maxWidth: .infinity, alignment: .center)
+                            .padding([.top], 30)
+                    }
+                }
+                .padding([.leading, .trailing], 16)
+                .iPadPadding(30)
+            }
+            .frame(maxHeight: .infinity, alignment: .top)
+            .navigationBarHidden(true)
+        }
+        .floatingButton(alignment: .topLeading) {
+            Image(systemName: "xmark")
+        } action: {
+            viewModel.pop()
+        }
+        .floatingButton {
+            Image(systemName: "safari")
+        } action: {
+            // TODO: Display Safari viewController
+        }.background(
+            LinearGradient(gradient: Gradient(colors: [.mainCustom, .mainCustom.opacity(0.25)]), startPoint: .bottom, endPoint: .top)
+        )
     }
 }
 
 #Preview {
-    let netClient = NewsAppClient()
-    let fakeNews = NewsModel(
-        author: "Jason Schreier",
-        title: "Video-Game Companies Make Workers Relocate, Then Fire Them",
-        source: NewsModel.Source(name: "Bloomberg"),
-        description: "Return-to-office policies are mixing with the inherent volatility of the gaming industry with painful results",
-        url: "https://www.bloomberg.com/news/newsletters/2024-01-26/video-game-companies-make-workers-relocate-then-fire-them?embedded-checkout=true",
-        imageUrl: "https://assets.bwbx.io/images/users/iqjWHBFdfxIU/iORuKt6DWr5Q/v0/-1x-1.jpg"
+    NewsDetail(
+        viewModel: NewsDetailViewModel(news: fakeNews, coordinator: FakeCoordinator(), interactor: NewsDetailInteractor())
     )
-    return NewsDetail(viewModel: NewsDetailViewModel(news: fakeNews, netClient: netClient, coordinator: AppCoordinator(netClient: netClient)))
 }

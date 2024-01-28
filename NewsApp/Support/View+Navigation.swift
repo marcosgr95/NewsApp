@@ -39,7 +39,6 @@ extension View {
         isActive: Binding<Bool>,
         @ViewBuilder destination: () -> Destination
     ) -> some View {
-        // TODO: Turn into sheet?
         overlay(alignment: .center) {
             NavigationLink(
                 destination: isActive.wrappedValue ? destination() : nil,

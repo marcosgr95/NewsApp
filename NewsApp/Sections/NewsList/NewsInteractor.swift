@@ -42,7 +42,11 @@ extension NewsQuery {
     }
 }
 
-final class NewsInteractor: BaseInteractor {
+protocol NewsInteractorProtocol {
+    func getTopNews(_ newsQuery: NewsQuery) -> AnyPublisher<[NewsModel], NetError>
+}
+
+final class NewsInteractor: NewsInteractorProtocol {
     var netClient: NetworkService
 
     init(netClient: NetworkService) {

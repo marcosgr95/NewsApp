@@ -65,13 +65,14 @@ struct FloatingButtonStyle: ButtonStyle {
 }
 
 struct FloatingButton<T: View, FG: ShapeStyle, BG: View>: ViewModifier {
+    let alignment: Alignment
     let label: () -> T
     let action: () -> Void
     let foregroundStyle: () -> FG
     let background: () -> BG
 
     func body(content: Content) -> some View {
-        ZStack(alignment: .bottomTrailing) {
+        ZStack(alignment: alignment) {
             content
 
             Button(action: action, label: label)
@@ -88,26 +89,59 @@ struct FloatingButton<T: View, FG: ShapeStyle, BG: View>: ViewModifier {
 
 extension View {
     func floatingButton<T: View, FG: ShapeStyle, BG: View>(
+        alignment: Alignment = .bottomTrailing,
         label: @escaping () -> T,
         action: @escaping () -> Void,
         foregroundStyle: @escaping () -> FG = { Color.mainCustom },
         background: @escaping () -> BG = { Color.secondaryCustom }
     ) -> some View {
-        modifier(FloatingButton(label: label, action: action, foregroundStyle: foregroundStyle, background: background))
+        modifier(FloatingButton(alignment: alignment, label: label, action: action, foregroundStyle: foregroundStyle, background: background))
     }
 }
 
 struct CustomFont: ViewModifier {
     let textStyle: Font.TextStyle
+    let weight: Font.Weight
+    let italics: Bool
+
+    private var fontName: String {
+        if weight == .bold {
+            "Lato-Bold\(italics ? "Italic" : "")"
+        } else {
+            "Lato-\(italics ? "Italic" : "Regular")"
+        }
+    }
 
     func body(content: Content) -> some View {
         content
-            .font(Font.custom("Lato-Regular", size: 18, relativeTo: textStyle))
+            .font(Font.custom(fontName, size: 18, relativeTo: textStyle))
     }
 }
 
 extension View {
-    func latoFont(textStyle: Font.TextStyle = .body) -> some View {
-        modifier(CustomFont(textStyle: textStyle))
+    func latoFont(
+        textStyle: Font.TextStyle = .body,
+        weight: Font.Weight = .regular,
+        italics: Bool = false
+    ) -> some View {
+        modifier(CustomFont(textStyle: textStyle, weight: weight, italics: italics))
+    }
+}
+
+struct IPadPadding: ViewModifier {
+    let padding: CGFloat
+
+    func body(content: Content) -> some View {
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            content.padding([.leading, .trailing], padding)
+        } else {
+            content
+        }
+    }
+}
+
+extension View {
+    func iPadPadding(_ padding: CGFloat) -> some View {
+        modifier(IPadPadding(padding: padding))
     }
 }

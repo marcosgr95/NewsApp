@@ -5,6 +5,9 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>Lato/Lato-Regular.ttf</string>
+		<string>Lato/Lato-Italic.ttf</string>
+		<string>Lato/Lato-Bold.ttf</string>
+		<string>Lato/Lato-BoldItalicttf</string>
 	</array>
 </dict>
 </plist>

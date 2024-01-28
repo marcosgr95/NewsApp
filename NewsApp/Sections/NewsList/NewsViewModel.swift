@@ -1,10 +1,9 @@
 import Foundation
 import Combine
 
-class NewsViewModel: BaseViewModel {
-    let netClient: NetworkService
-    let coordinator: AppCoordinator
-    let interactor: NewsInteractor
+final class NewsViewModel: ObservableObject {
+    let coordinator: any Coordinator
+    let interactor: any NewsInteractorProtocol
 
     private var cancellables: Set<AnyCancellable> = []
     private var lastRequestByText: AnyCancellable?
@@ -17,10 +16,9 @@ class NewsViewModel: BaseViewModel {
     @Published var isLoading: Bool = true
     @Published var isLastPage: Bool = false
 
-    init(netClient: NetworkService, coordinator: AppCoordinator) {
-        self.netClient = netClient
+    init(coordinator: any Coordinator, interactor: some NewsInteractorProtocol) {
         self.coordinator = coordinator
-        self.interactor = NewsInteractor(netClient: netClient)
+        self.interactor = interactor
     }
 
     private func requestTopNews(searchText: String? = nil) {
@@ -87,6 +85,10 @@ class NewsViewModel: BaseViewModel {
 
     func navigateToNewsDetail(news: NewsModel) {
         DispatchQueue.main.async { [weak self] in self?.coordinator.navigateToNewsDetail(news: news) }
+    }
+
+    func popDetail() {
+        DispatchQueue.main.async { [weak self] in self?.coordinator.popDetail() }
     }
 
 }

@@ -52,25 +52,30 @@ struct NewsList: View {
                                 }
                             }
                         }
-                        .clearContentBackground() // TODO: Is this necessary?
                         .listRowInsets(EdgeInsets(top: 8.0, leading: 8.0, bottom: 8.0, trailing: 8.0))
                         .listRowBackground(Color.clear)
                         .listRowSeparator(.hidden)
                     }
+                    .onAppear {
+                        if UIDevice.current.userInterfaceIdiom == .pad, let news = viewModel.news.first {
+                            viewModel.navigateToNewsDetail(news: news)
+                        } else {
+                            viewModel.popDetail()
+                        }
+                    }
                     .hideScrollIndicator()
                 }
             }
-            .clearContentBackground()
             .floatingButton {
                 Image(systemName: "magnifyingglass")
             } action: {
                 isTextFocused = true
             }
-
     }
 }
 
 #Preview {
-    let netClient = NewsAppClient()
-    return NewsList(viewModel: NewsViewModel(netClient: netClient, coordinator: AppCoordinator(netClient: netClient)))
+    NewsList(
+        viewModel: NewsViewModel(coordinator: FakeCoordinator(), interactor: FakeNewsInteractor())
+    )
 }

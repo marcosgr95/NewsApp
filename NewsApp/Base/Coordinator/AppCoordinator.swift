@@ -1,7 +1,13 @@
 import SwiftUI
 
 @MainActor
-class AppCoordinator: ObservableObject {
+protocol Coordinator: ObservableObject {
+    func navigateToNewsDetail(news: NewsModel)
+    func popDetail()
+}
+
+@MainActor
+class AppCoordinator: Coordinator {
     private let netClient: NetworkService
 
     @Published var newsViewModel: NewsViewModel!
@@ -9,11 +15,22 @@ class AppCoordinator: ObservableObject {
 
     init(netClient: NetworkService) {
         self.netClient = netClient
-        self.newsViewModel = NewsViewModel(netClient: netClient, coordinator: self)
+        self.newsViewModel = NewsViewModel(
+            coordinator: self,
+            interactor: NewsInteractor(netClient: netClient)
+        )
     }
 
     func navigateToNewsDetail(news: NewsModel) {
-        self.newsDetailViewModel = NewsDetailViewModel(news: news, netClient: netClient, coordinator: self)
+        newsDetailViewModel = NewsDetailViewModel(
+            news: news,
+            coordinator: self,
+            interactor: NewsDetailInteractor()
+        )
+    }
+
+    func popDetail() {
+        newsDetailViewModel = nil
     }
 }
 
@@ -44,6 +61,7 @@ struct AppCoordinatorView: View {
                             NewsDetail(viewModel: viewModel)
                         }
                 }
+                .navigationViewStyle(.automatic)
             }
         }
         .afterLoading {
