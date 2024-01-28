@@ -13,6 +13,7 @@
 		6B63AC142B6430F500EFE6D6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6B63AC132B6430F500EFE6D6 /* Preview Assets.xcassets */; };
 		6B6D3EFC2B65818C008E4057 /* SearchField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B6D3EFB2B65818C008E4057 /* SearchField.swift */; };
 		6B6D3EFE2B6588F9008E4057 /* NewsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B6D3EFD2B6588F9008E4057 /* NewsCell.swift */; };
+		6BDAA8DC2B665FBC000FCDE4 /* Lato in Resources */ = {isa = PBXBuildFile; fileRef = 6BDAA8DB2B665FBC000FCDE4 /* Lato */; };
 		6BE40F302B643A0E0047A65A /* NewsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE40F2F2B643A0E0047A65A /* NewsViewModel.swift */; };
 		6BE40F322B643A1B0047A65A /* NewsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE40F312B643A1B0047A65A /* NewsInteractor.swift */; };
 		6BE40F352B64E2320047A65A /* NewsAppClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE40F342B64E2320047A65A /* NewsAppClient.swift */; };
@@ -37,6 +38,8 @@
 		6B63AC132B6430F500EFE6D6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		6B6D3EFB2B65818C008E4057 /* SearchField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchField.swift; sourceTree = "<group>"; };
 		6B6D3EFD2B6588F9008E4057 /* NewsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCell.swift; sourceTree = "<group>"; };
+		6BDAA8DB2B665FBC000FCDE4 /* Lato */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Lato; sourceTree = "<group>"; };
+		6BDAA8DD2B66601F000FCDE4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		6BE40F2F2B643A0E0047A65A /* NewsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewModel.swift; sourceTree = "<group>"; };
 		6BE40F312B643A1B0047A65A /* NewsInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsInteractor.swift; sourceTree = "<group>"; };
 		6BE40F342B64E2320047A65A /* NewsAppClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsAppClient.swift; sourceTree = "<group>"; };
@@ -83,6 +86,8 @@
 		6B63AC0B2B6430D900EFE6D6 /* NewsApp */ = {
 			isa = PBXGroup;
 			children = (
+				6BDAA8DD2B66601F000FCDE4 /* Info.plist */,
+				6BDAA8D92B665F95000FCDE4 /* Resources */,
 				6BE40F5E2B65596D0047A65A /* Components */,
 				6BE40F332B643AB80047A65A /* Base */,
 				6BE40F552B6526700047A65A /* Sections */,
@@ -100,6 +105,22 @@
 				6B63AC132B6430F500EFE6D6 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		6BDAA8D92B665F95000FCDE4 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				6BDAA8DA2B665F99000FCDE4 /* Fonts */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		6BDAA8DA2B665F99000FCDE4 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				6BDAA8DB2B665FBC000FCDE4 /* Lato */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 		6BE40F2C2B6439DA0047A65A /* NewsList */ = {
@@ -262,6 +283,7 @@
 			files = (
 				6B63AC142B6430F500EFE6D6 /* Preview Assets.xcassets in Resources */,
 				6B63AC112B6430F500EFE6D6 /* Assets.xcassets in Resources */,
+				6BDAA8DC2B665FBC000FCDE4 /* Lato in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -458,6 +480,7 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = NewsApp/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.news";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -493,6 +516,7 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = NewsApp/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.news";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

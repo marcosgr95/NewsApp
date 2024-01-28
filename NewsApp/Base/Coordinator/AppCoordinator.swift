@@ -34,8 +34,9 @@ struct AppCoordinatorView: View {
                 Image(.splash)
                     .resizable()
                     .scaledToFit()
-                    .clipShape(Circle())
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
                     .frame(width: 350, height: 350)
+                    .shadow(color: .secondaryCustom, radius: 5, x: 1.5, y: 1.5)
             } else {
                 NavigationView {
                     NewsList(viewModel: coordinator.newsViewModel)

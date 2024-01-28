@@ -31,7 +31,6 @@ struct NewsList: View {
                         Spacer()
                         LoadingView()
                             .afterLoading {
-//                                try? await Task.sleep(nanoseconds: 500_000_000)
                                 viewModel.requestNews()
                             }
                         Spacer()
@@ -62,6 +61,12 @@ struct NewsList: View {
                 }
             }
             .clearContentBackground()
+            .floatingButton {
+                Image(systemName: "magnifyingglass")
+            } action: {
+                isTextFocused = true
+            }
+
     }
 }
 

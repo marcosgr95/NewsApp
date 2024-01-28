@@ -14,11 +14,12 @@ struct LoadingView: View {
                 .frame(width: 40, height: 40)
                 .rotationEffect(.init(degrees: Double(rotationDegree)))
                 .animation(.linear(duration: 0.8).repeatForever(autoreverses: false), value: isAnimating)
+                .foregroundStyle(.secondaryCustom)
 
             Circle()
                 .trim(from: 0.0, to: strokeLength)
                 .stroke(
-                    LinearGradient(colors: [.primary, .primary.opacity(0.1)], startPoint: .topLeading, endPoint: .bottomTrailing),
+                    LinearGradient(colors: [.secondaryCustom, .secondaryCustom.opacity(0.1)], startPoint: .topLeading, endPoint: .bottomTrailing),
                     style: StrokeStyle(lineWidth: 8.0, lineCap: .round, lineJoin: .round)
                 )
                 .animation(Animation.easeIn(duration: 1.75).repeatForever(autoreverses: true), value: isAnimating)

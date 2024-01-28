@@ -4,10 +4,14 @@ struct NewsCell: View {
     let onNavigation: () -> Void
     let news: NewsModel
 
+    @State private var imageLoaded = false
+
     var body: some View {
         VStack {
             if let url = URL(string: news.imageUrl ?? "") {
-                AsyncImage(url: url) { image in
+                AsyncImage(
+                    url: url
+                ) { image in
                     image
                         .resizable()
                         .aspectRatio(contentMode: .fit)
@@ -15,17 +19,20 @@ struct NewsCell: View {
                     ProgressView()
                         .padding()
                 }
+                .onAppear { imageLoaded = true }
                 .frame(maxWidth: .infinity)
+                .animation(.easeInOut(duration: 0.75), value: imageLoaded)
             }
 
             Text(news.title)
                 .foregroundStyle(.secondaryCustom)
+                .latoFont()
                 .frame(maxWidth: .infinity)
                 .padding()
 
             if let source = news.source?.name {
                 Text(source)
-                    .font(.footnote)
+                    .latoFont(textStyle: .footnote)
                     .foregroundStyle(.secondaryCustom)
                     .frame(maxWidth: .infinity, alignment: .trailing)
                     .padding()
@@ -33,7 +40,7 @@ struct NewsCell: View {
         }
         .background(.mainCustom)
         .clipShape(RoundedRectangle(cornerRadius: 6))
-        .shadow(color: .secondaryCustom, radius: 3, x: 5.0, y: 5.0)
+        .shadow(color: .primary, radius: 1, x: 3.0, y: 3.0)
         .onNavigation {
             onNavigation()
         }
