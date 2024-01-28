@@ -2,6 +2,7 @@ import SwiftUI
 
 struct SearchField: View {
     @Binding var searchText: String
+    let onType: () -> Void
 
     var body: some View {
         VStack {
@@ -10,6 +11,9 @@ struct SearchField: View {
                 TextField("Search", text: $searchText)
                     .foregroundStyle(.secondaryCustom)
                     .font(Font.body.weight(.heavy))
+                    .onChange(of: searchText) { _ in
+                        onType()
+                    }
             }
             .padding(10)
             .border(.secondaryCustom, width: 3.5)
@@ -21,5 +25,5 @@ struct SearchField: View {
 }
 
 #Preview {
-    SearchField(searchText: .constant("Searching..."))
+    SearchField(searchText: .constant("Searching..."), onType: {})
 }

@@ -7,7 +7,11 @@ class NewsViewModel: BaseViewModel {
     let interactor: NewsInteractor
 
     private var cancellables: Set<AnyCancellable> = []
+    private var lastRequestByText: AnyCancellable?
     private var page: Int = 0
+
+    private var lastSearch: String = ""
+    private let queryTextSubject = PassthroughSubject<Void, Never>()
 
     @Published var news: [NewsModel] = []
     @Published var isLoading: Bool = true
@@ -29,7 +33,9 @@ class NewsViewModel: BaseViewModel {
                 defer { self?.isLoading = false }
 
                 switch completion {
-                case .failure(let netError): print("failure \(netError)")
+                case .failure(let netError):
+                    // TODO: Display error somehow
+                    print("failure \(netError)")
                 default: break
                 }
             } receiveValue: { [weak self] in
@@ -43,14 +49,36 @@ class NewsViewModel: BaseViewModel {
     }
 
     func requestNews() {
+        guard lastSearch.isEmpty else { return }
+
         page += 1
         requestTopNews()
     }
 
     func requestNewsByText(_ searchText: String) {
-        page = 1
-        news = []
-        requestTopNews(searchText: searchText)
+        isLoading = true
+        lastSearch = searchText
+
+        if searchText.isEmpty {
+            news = []
+            page = 0
+            requestNews()
+        } else {
+            defer { queryTextSubject.send(()) }
+
+            news = []
+            page = 1
+
+            lastRequestByText?.cancel()
+
+            lastRequestByText = queryTextSubject
+                .debounce(for: .seconds(1.5), scheduler: RunLoop.current)
+                .sink { [weak self] _ in
+                    self?.requestTopNews(searchText: searchText)
+                }
+
+            lastRequestByText?.store(in: &cancellables)
+        }
     }
 
     func isLastIndex(_ index: Int) -> Bool {

@@ -19,12 +19,9 @@ class AppCoordinator: ObservableObject {
 
 struct AppCoordinatorView: View {
     let netClient: NetworkService
-
     @ObservedObject var coordinator: AppCoordinator
 
     @State private var isDisplayingSplash: Bool = true
-    @State private var isAnimating: Bool = false
-    @State private var rotationDegrees: Int = -45
 
     init(netClient: NetworkService) {
         self.netClient = netClient
@@ -39,12 +36,6 @@ struct AppCoordinatorView: View {
                     .scaledToFit()
                     .clipShape(Circle())
                     .frame(width: 350, height: 350)
-                    .rotationEffect(.degrees(Double(rotationDegrees)))
-                    .animation(.linear(duration: 0.7).repeatForever(autoreverses: true), value: isAnimating)
-                    .onAppear {
-                        isAnimating = true
-                        rotationDegrees = 45
-                    }
             } else {
                 NavigationView {
                     NewsList(viewModel: coordinator.newsViewModel)
@@ -55,10 +46,8 @@ struct AppCoordinatorView: View {
             }
         }
         .afterLoading {
-            try? await Task.sleep(nanoseconds: 2_500_000_000)
-            withAnimation {
-                self.isDisplayingSplash = false
-            }
+            try? await Task.sleep(nanoseconds: 1_000_000_000)
+            self.isDisplayingSplash = false
         }
     }
 }
