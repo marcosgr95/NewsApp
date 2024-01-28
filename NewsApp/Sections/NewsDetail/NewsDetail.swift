@@ -31,7 +31,7 @@ struct NewsDetail: View {
                             .padding([.top], 30)
                     }
                 }
-                .padding([.leading, .trailing], 16)
+                .padding([.leading, .trailing, .top], 16)
                 .iPadPadding(30)
             }
             .frame(maxHeight: .infinity, alignment: .top)
@@ -45,7 +45,7 @@ struct NewsDetail: View {
         .floatingButton {
             Image(systemName: "safari")
         } action: {
-            // TODO: Display Safari viewController
+            viewModel.seeOnSafari()
         }.background(
             LinearGradient(gradient: Gradient(colors: [.mainCustom, .mainCustom.opacity(0.25)]), startPoint: .bottom, endPoint: .top)
         )

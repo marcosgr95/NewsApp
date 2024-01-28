@@ -4,6 +4,7 @@ import SwiftUI
 protocol Coordinator: ObservableObject {
     func navigateToNewsDetail(news: NewsModel)
     func popDetail()
+    func seeOnSafari(url: URL)
 }
 
 @MainActor
@@ -12,6 +13,7 @@ class AppCoordinator: Coordinator {
 
     @Published var newsViewModel: NewsViewModel!
     @Published var newsDetailViewModel: NewsDetailViewModel?
+    @Published var urlToDisplayViaSafariWebView: URL?
 
     init(netClient: NetworkService) {
         self.netClient = netClient
@@ -31,6 +33,14 @@ class AppCoordinator: Coordinator {
 
     func popDetail() {
         newsDetailViewModel = nil
+    }
+
+    func seeOnSafari(url: URL) {
+        urlToDisplayViaSafariWebView = url
+    }
+
+    func popSafariWebView() {
+        urlToDisplayViaSafariWebView = nil
     }
 }
 
@@ -59,6 +69,10 @@ struct AppCoordinatorView: View {
                     NewsList(viewModel: coordinator.newsViewModel)
                         .navigation(viewModel: $coordinator.newsDetailViewModel) { viewModel in
                             NewsDetail(viewModel: viewModel)
+                                .navigation(viewModel: $coordinator.urlToDisplayViaSafariWebView) {
+                                    SafariWebView(url: $0)
+                                        .ignoresSafeArea()
+                                }
                         }
                 }
                 .navigationViewStyle(.automatic)

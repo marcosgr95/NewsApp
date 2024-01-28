@@ -15,6 +15,11 @@ final class NewsDetailViewModel: ObservableObject {
         self.interactor = interactor
     }
 
+    func seeOnSafari() {
+        guard let urlString = news.url, let url = URL(string: urlString) else { return }
+        DispatchQueue.main.async { [weak self] in self?.coordinator.seeOnSafari(url: url) }
+    }
+
     func pop() {
         DispatchQueue.main.async { [weak self] in self?.coordinator.popDetail() }
     }

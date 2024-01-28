@@ -19,7 +19,7 @@ struct LoadingView: View {
             Circle()
                 .trim(from: 0.0, to: strokeLength)
                 .stroke(
-                    LinearGradient(colors: [.secondaryCustom, .secondaryCustom.opacity(0.1)], startPoint: .topLeading, endPoint: .bottomTrailing),
+                    LinearGradient(colors: [.mainCustom, .mainCustom.opacity(0.5)], startPoint: .topLeading, endPoint: .bottomTrailing),
                     style: StrokeStyle(lineWidth: 8.0, lineCap: .round, lineJoin: .round)
                 )
                 .animation(Animation.easeIn(duration: 1.75).repeatForever(autoreverses: true), value: isAnimating)

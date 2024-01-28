@@ -20,7 +20,7 @@ extension View {
 
     func navigation<ViewModel, Destination: View>(
         viewModel: Binding<ViewModel?>,
-        @ViewBuilder destination: (ViewModel) -> Destination
+        @ViewBuilder destination: @escaping (ViewModel) -> Destination
     ) -> some View {
         let isActive = Binding(
             get: { viewModel.wrappedValue != nil },
@@ -37,13 +37,23 @@ extension View {
 
     func navigation<Destination: View>(
         isActive: Binding<Bool>,
-        @ViewBuilder destination: () -> Destination
+        @ViewBuilder destination: @escaping () -> Destination
     ) -> some View {
-        overlay(alignment: .center) {
-            NavigationLink(
-                destination: isActive.wrappedValue ? destination() : nil,
-                isActive: isActive,
-                label: { EmptyView() }
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            AnyView(
+                overlay(alignment: .center) {
+                    NavigationLink(
+                        destination: isActive.wrappedValue ? destination() : nil,
+                        isActive: isActive,
+                        label: { EmptyView() }
+                    )
+                }
+            )
+        } else {
+            AnyView(
+                fullScreenCover(isPresented: isActive) {
+                    destination()
+                }
             )
         }
     }
