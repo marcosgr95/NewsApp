@@ -66,6 +66,7 @@ struct FloatingButtonStyle: ButtonStyle {
 
 struct FloatingButton<T: View, FG: ShapeStyle, BG: View>: ViewModifier {
     let alignment: Alignment
+    let hidingCondition: Bool
     let label: () -> T
     let action: () -> Void
     let foregroundStyle: () -> FG
@@ -83,6 +84,7 @@ struct FloatingButton<T: View, FG: ShapeStyle, BG: View>: ViewModifier {
                 .shadow(color: (foregroundStyle() as? Color) ?? .secondary, radius: 5, x: 1.5, y: 1.5)
                 .buttonStyle(FloatingButtonStyle())
                 .padding(12)
+                .opacity(hidingCondition ? 0 : 1)
         }
     }
 }
@@ -90,12 +92,22 @@ struct FloatingButton<T: View, FG: ShapeStyle, BG: View>: ViewModifier {
 extension View {
     func floatingButton<T: View, FG: ShapeStyle, BG: View>(
         alignment: Alignment = .bottomTrailing,
+        hidingCondition: Bool = false,
         label: @escaping () -> T,
         action: @escaping () -> Void,
-        foregroundStyle: @escaping () -> FG = { Color.mainCustom },
-        background: @escaping () -> BG = { Color.secondaryCustom }
+        foregroundStyle: @escaping () -> FG = { Color.secondaryCustom },
+        background: @escaping () -> BG = { Color.mainCustom }
     ) -> some View {
-        modifier(FloatingButton(alignment: alignment, label: label, action: action, foregroundStyle: foregroundStyle, background: background))
+        modifier(
+            FloatingButton(
+                alignment: alignment,
+                hidingCondition: hidingCondition,
+                label: label,
+                action: action,
+                foregroundStyle: foregroundStyle,
+                background: background
+            )
+        )
     }
 }
 

@@ -11,22 +11,19 @@ struct NewsCell: View {
             }
 
             Text(news.title)
-                .foregroundStyle(.secondaryCustom)
-                .latoFont()
                 .frame(maxWidth: .infinity)
                 .padding()
 
             if let source = news.source?.name {
                 Text(source)
                     .latoFont(textStyle: .footnote, italics: true)
-                    .foregroundStyle(.secondaryCustom)
                     .frame(maxWidth: .infinity, alignment: .trailing)
                     .padding()
             }
         }
-        .background(.mainCustom)
+        .background(.secondaryCustom)
         .clipShape(RoundedRectangle(cornerRadius: 6))
-        .shadow(color: .primary, radius: 1, x: 3.0, y: 3.0)
+        .shadow(color: .secondaryCustom, radius: 1, x: 3.0, y: 3.0)
         .onNavigation {
             onNavigation()
         }

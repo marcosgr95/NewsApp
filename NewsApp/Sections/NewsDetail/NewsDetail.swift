@@ -26,7 +26,6 @@ struct NewsDetail: View {
 
                     if let description = viewModel.news.description {
                         Text(description)
-                            .latoFont()
                             .frame(maxWidth: .infinity, alignment: .center)
                             .padding([.top], 30)
                     }
@@ -37,7 +36,10 @@ struct NewsDetail: View {
             .frame(maxHeight: .infinity, alignment: .top)
             .navigationBarHidden(true)
         }
-        .floatingButton(alignment: .topLeading) {
+        .floatingButton(
+            alignment: .topLeading,
+            hidingCondition: UIDevice.current.userInterfaceIdiom == .pad
+        ) {
             Image(systemName: "xmark")
         } action: {
             viewModel.pop()
@@ -47,7 +49,7 @@ struct NewsDetail: View {
         } action: {
             viewModel.seeOnSafari()
         }.background(
-            LinearGradient(gradient: Gradient(colors: [.mainCustom, .mainCustom.opacity(0.25)]), startPoint: .bottom, endPoint: .top)
+            LinearGradient(gradient: Gradient(colors: [.secondaryCustom, .secondaryCustom.opacity(0.25)]), startPoint: .bottom, endPoint: .top)
         )
     }
 }

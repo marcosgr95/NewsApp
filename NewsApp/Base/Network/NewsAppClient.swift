@@ -38,10 +38,10 @@ final class NewsAppClient: NetworkService {
                     throw NetError.requestFailure(.apiRelated(errorMessage))
                 }
             }
-            .mapError {
-                if $0 is DecodingError {
+            .mapError { error in
+                if error is DecodingError {
                     return NetError.requestFailure(.failedDecoding)
-                } else if let netError = $0 as? NetError {
+                } else if let netError = error as? NetError {
                     return netError
                 } else {
                     return NetError.requestFailure(.unknown)

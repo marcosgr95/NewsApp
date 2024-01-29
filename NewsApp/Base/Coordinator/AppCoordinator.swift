@@ -76,6 +76,7 @@ struct AppCoordinatorView: View {
                         }
                 }
                 .navigationViewStyle(.automatic)
+                .latoFont()
             }
         }
         .afterLoading {

@@ -35,6 +35,20 @@ struct NewsList: View {
                             }
                         Spacer()
                     }
+                } else if viewModel.requestFailed {
+                    VStack {
+                        Spacer()
+                        ErrorView {
+                            viewModel.requestNewsByText(searchText)
+                        }
+                        Spacer()
+                    }
+                } else if viewModel.news.isEmpty {
+                    VStack {
+                        Spacer()
+                        NoContentView()
+                        Spacer()
+                    }
                 } else {
                     List {
                         ForEach(viewModel.news.enumerated().map { $0 }, id: \.element.id) { index, news in

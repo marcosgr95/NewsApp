@@ -10,7 +10,6 @@ struct SearchField: View {
                 Image(systemName: "magnifyingglass")
                     .foregroundStyle(.secondaryCustom)
                 TextField("Search", text: $searchText)
-                    .latoFont()
                     .foregroundStyle(.secondaryCustom)
                     .font(Font.body.weight(.heavy))
                     .onChange(of: searchText) { _ in
@@ -18,7 +17,7 @@ struct SearchField: View {
                     }
             }
             .padding(10)
-            .border(.secondaryCustom, width: 3.5)
+            .border(.mainCustom, width: 2.5)
             .clipShape(RoundedRectangle(cornerRadius: 4))
         }
         .padding(8)

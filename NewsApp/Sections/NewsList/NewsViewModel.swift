@@ -15,6 +15,7 @@ final class NewsViewModel: ObservableObject {
     @Published var news: [NewsModel] = []
     @Published var isLoading: Bool = true
     @Published var isLastPage: Bool = false
+    @Published var requestFailed: Bool = true
 
     init(coordinator: any Coordinator, interactor: some NewsInteractorProtocol) {
         self.coordinator = coordinator
@@ -23,6 +24,7 @@ final class NewsViewModel: ObservableObject {
 
     private func requestTopNews(searchText: String? = nil) {
         isLoading = true
+        requestFailed = false
 
         let newsQuery = NewsQuery(page: page, searchText: searchText)
         interactor.getTopNews(newsQuery)
@@ -31,9 +33,8 @@ final class NewsViewModel: ObservableObject {
                 defer { self?.isLoading = false }
 
                 switch completion {
-                case .failure(let netError):
-                    // TODO: Display error somehow
-                    print("failure \(netError)")
+                case .failure:
+                    self?.requestFailed = true
                 default: break
                 }
             } receiveValue: { [weak self] in
