@@ -51,3 +51,16 @@ Next we have the app in action in the aforementioned cases:
 <img src="https://github.com/marcosgr95/NewsApp/assets/26648516/eceef99b-3c27-44eb-8d0b-cbe582dc19ec" alt="Error screen" width=500/>
 
 
+### News detail
+
+Much as the list, some data about the news piece is displayed in the detail. However, here we can see the whole event thanks to a webView, to which we can access via a floating button. There's another floating bottom at the top left to pop the detail and go back to the list.
+
+*Detail screen*
+
+---
+<img src="https://github.com/marcosgr95/NewsApp/assets/26648516/3faa06ae-ecbe-4943-aa81-2e111ed3fbe5" alt="Detail screen" width=500/>
+
+*In-app Safari webView*
+
+---
+<img src="https://github.com/marcosgr95/NewsApp/assets/26648516/b7a665e2-b153-452e-a040-b7786b5e3f73" alt="Safari web view" width=500/>
