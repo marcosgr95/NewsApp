@@ -6,7 +6,7 @@ final class NewsViewModel: ObservableObject {
     let interactor: any NewsInteractorProtocol
 
     private var cancellables: Set<AnyCancellable> = []
-    private var lastRequestByText: AnyCancellable?
+    private var lastRequest: AnyCancellable?
     private var page: Int = 0
 
     private var lastSearch: String = ""
@@ -27,7 +27,12 @@ final class NewsViewModel: ObservableObject {
         requestFailed = false
 
         let newsQuery = NewsQuery(page: page, searchText: searchText)
-        interactor.getTopNews(newsQuery)
+
+        // We cancel the lastRequest AnyCancellable in case it's been created previously
+        // Which this actually means is that, in case there's already an ongoing request, we cancel it before asking for more data
+        lastRequest?.cancel()
+
+        lastRequest = interactor.getTopNews(newsQuery)
             .receive(on: RunLoop.main)
             .sink { [weak self] completion in
                 defer { self?.isLoading = false }
@@ -40,11 +45,13 @@ final class NewsViewModel: ObservableObject {
             } receiveValue: { [weak self] in
                 guard let self else { return }
 
+                // If the request yields less items than pageSize we've reached the end of the data
                 self.isLastPage = $0.count < newsQuery.pageSize
                 self.news += $0
                 self.isLoading = false
             }
-            .store(in: &cancellables)
+
+        lastRequest?.store(in: &cancellables)
     }
 
     func requestNews() {
@@ -68,15 +75,19 @@ final class NewsViewModel: ObservableObject {
             news = []
             page = 1
 
-            lastRequestByText?.cancel()
+            // We cancel the lastRequest AnyCancellable in case it's been created previously
+            // Which this actually means is that, in case there's already an ongoing request, we cancel it before asking for more data
+            lastRequest?.cancel()
 
-            lastRequestByText = queryTextSubject
+            // We don't want to send a request for each character the user types in, hence the debounce call
+            // We wait 1.5 seconds before sending the request, giving the user time to finish typing
+            lastRequest = queryTextSubject
                 .debounce(for: .seconds(1.5), scheduler: RunLoop.current)
                 .sink { [weak self] _ in
                     self?.requestTopNews(searchText: searchText)
                 }
 
-            lastRequestByText?.store(in: &cancellables)
+            lastRequest?.store(in: &cancellables)
         }
     }
 

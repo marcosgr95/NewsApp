@@ -176,10 +176,10 @@
 			isa = PBXGroup;
 			children = (
 				6BE40F4D2B64FAC20047A65A /* LosslessStringConvertible+Extension.swift */,
-				6BE40F5A2B652B910047A65A /* View+Navigation.swift */,
-				6BE40F5C2B65568C0047A65A /* View+Modifiers.swift */,
 				6BDAA8E32B668668000FCDE4 /* PreviewFakes.swift */,
 				6BC86C382B66C954000658CC /* UISplitViewController+Extension.swift */,
+				6BE40F5A2B652B910047A65A /* View+Navigation.swift */,
+				6BE40F5C2B65568C0047A65A /* View+Modifiers.swift */,
 			);
 			path = Support;
 			sourceTree = "<group>";
@@ -204,13 +204,13 @@
 		6BE40F5E2B65596D0047A65A /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				6BE40F5F2B6559770047A65A /* LoadingView.swift */,
-				6BE40F622B655EE50047A65A /* GettingMoreItemsView.swift */,
-				6B6D3EFB2B65818C008E4057 /* SearchField.swift */,
 				6BDAA8E12B667D40000FCDE4 /* CustomAsyncImageView.swift */,
-				6BC86C362B66BA85000658CC /* SafariWebView.swift */,
-				6BC86C3A2B680234000658CC /* NoContentView.swift */,
 				6BC86C3C2B68079C000658CC /* ErrorView.swift */,
+				6BE40F622B655EE50047A65A /* GettingMoreItemsView.swift */,
+				6BE40F5F2B6559770047A65A /* LoadingView.swift */,
+				6BC86C3A2B680234000658CC /* NoContentView.swift */,
+				6B6D3EFB2B65818C008E4057 /* SearchField.swift */,
+				6BC86C362B66BA85000658CC /* SafariWebView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
