@@ -42,11 +42,15 @@ extension View {
         if UIDevice.current.userInterfaceIdiom == .pad {
             AnyView(
                 overlay(alignment: .center) {
-                    NavigationLink(
-                        destination: isActive.wrappedValue ? destination() : nil,
-                        isActive: isActive,
-                        label: { EmptyView() }
-                    )
+                    if isActive.wrappedValue {
+                        NavigationLink(
+                            destination: isActive.wrappedValue ? destination() : nil,
+                            isActive: isActive,
+                            label: { EmptyView() }
+                        )
+                    } else {
+                        EmptyView()
+                    }
                 }
             )
         } else {

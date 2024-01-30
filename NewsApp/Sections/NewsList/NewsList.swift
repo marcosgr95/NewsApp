@@ -71,10 +71,12 @@ struct NewsList: View {
                         .listRowSeparator(.hidden)
                     }
                     .onAppear {
-                        if UIDevice.current.userInterfaceIdiom == .pad, let news = viewModel.news.first {
-                            viewModel.navigateToNewsDetail(news: news)
-                        } else {
-                            viewModel.popDetail()
+                        Task {
+                            if await viewModel.noDetailOnScreen(),
+                               UIDevice.current.userInterfaceIdiom == .pad,
+                               let news = viewModel.news.first {
+                                viewModel.navigateToNewsDetail(news: news)
+                            }
                         }
                     }
                     .hideScrollIndicator()

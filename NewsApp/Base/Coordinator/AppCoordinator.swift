@@ -4,6 +4,7 @@ import SwiftUI
 protocol Coordinator: ObservableObject {
     func navigateToNewsDetail(news: NewsModel)
     func popDetail()
+    func isDisplayingADetail() -> Bool
     func seeOnSafari(url: URL)
 }
 
@@ -33,6 +34,10 @@ class AppCoordinator: Coordinator {
 
     func popDetail() {
         newsDetailViewModel = nil
+    }
+
+    func isDisplayingADetail() -> Bool {
+        newsDetailViewModel != nil
     }
 
     func seeOnSafari(url: URL) {

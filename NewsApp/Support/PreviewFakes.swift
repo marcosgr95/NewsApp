@@ -39,6 +39,7 @@ class FakeNetClient: NetworkService {
 class FakeCoordinator: Coordinator {
     func navigateToNewsDetail(news: NewsModel) {}
     func popDetail() {}
+    func isDisplayingADetail() -> Bool { false }
     func seeOnSafari(url: URL) {}
 }
 

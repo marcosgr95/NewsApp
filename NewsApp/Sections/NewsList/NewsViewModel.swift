@@ -99,8 +99,7 @@ final class NewsViewModel: ObservableObject {
         DispatchQueue.main.async { [weak self] in self?.coordinator.navigateToNewsDetail(news: news) }
     }
 
-    func popDetail() {
-        DispatchQueue.main.async { [weak self] in self?.coordinator.popDetail() }
+    func noDetailOnScreen() async -> Bool {
+        await !coordinator.isDisplayingADetail()
     }
-
 }
