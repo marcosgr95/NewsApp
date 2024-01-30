@@ -64,3 +64,29 @@ Much as the list, some data about the news piece is displayed in the detail. How
 
 ---
 <img src="https://github.com/marcosgr95/NewsApp/assets/26648516/b7a665e2-b153-452e-a040-b7786b5e3f73" alt="Safari web view" width=500/>
+
+---
+
+It should be pointed out that the app supports Dark mode and it can be run on iPad too. Here's a taster:
+
+
+https://github.com/marcosgr95/NewsApp/assets/26648516/e228fc35-cc35-40cc-b437-8ceaa3070d49
+
+
+## Developing process
+
+As for the developing process itself, no third-party libraries were used, other than [SwiftLint](https://realm.github.io/SwiftLint/). As can be seen in the following screenshot, SwiftLint helps/forces us to follow good coding practices:
+
+*SwiftLint in action*
+
+<img src="https://github.com/marcosgr95/NewsApp/assets/26648516/c7ade169-635e-4491-b7fa-5925000f0628" alt="SwiftLint in action"/>
+
+---
+
+When it comes to testing the API, since its free, they set limits in order not to throttle the system. That's why if you make more than 100 requests you'll end up receiving a HTTP 429 for a day. Since I wanted to test my app without having to fret about that I decided to make use of [Proxyman](https://proxyman.io). This tool helps us mock the responses, as can be seen in the following video:
+
+
+
+https://github.com/marcosgr95/NewsApp/assets/26648516/4cc8f30b-2cc9-44e6-b624-72487b519abc
+
+
